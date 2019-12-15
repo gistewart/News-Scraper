@@ -2,6 +2,7 @@
 const db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var mongojs = require("mongojs");
 
 //exports a function that will accept the app we pass
 module.exports = function(app) {
@@ -42,7 +43,7 @@ module.exports = function(app) {
         db.Article.create(result)
           .then(function(dbArticle) {
             // View the added result in the console
-            console.log(dbArticle);
+            // console.log(dbArticle);
           })
           .catch(function(err) {
             // If an error occurred, log it
@@ -59,6 +60,82 @@ module.exports = function(app) {
   // Route for getting all Articles from the db
   app.get("/articles", function(req, res) {
     db.Article.find({})
+      .then(function(dbArticle) {
+        // If all Articles are successfully found, send them back to the client
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurs, send the error back to the client
+        res.json(err);
+      });
+  });
+
+  // Route for deleting a saved article from the Articles collection
+  app.get("/delete/:id", function(req, res) {
+    console.log(req.body);
+    db.Article.remove(
+      {
+        _id: mongojs.ObjectID(req.params.id)
+      },
+      function(error, removed) {
+        // Log any errors from mongojs
+        if (error) {
+          console.log(error);
+          res.send(error);
+        } else {
+          // Otherwise, send the mongojs response to the browser
+          // This will fire off the success function of the ajax request
+          console.log(removed);
+          res.send(removed);
+        }
+      }
+    );
+  });
+
+  // Route for marking an article as 'saved' in the Articles collection
+  app.put("/saved/:id", function(req, res) {
+    console.log(req.body);
+    db.Article.update(
+      {
+        _id: mongojs.ObjectID(req.params.id)
+      },
+      {
+        $set: {
+          saved: true
+        }
+      },
+
+      function(error, removed) {
+        // Log any errors from mongojs
+        if (error) {
+          console.log(error);
+          res.send(error);
+        } else {
+          // Otherwise, send the mongojs response to the browser
+          // This will fire off the success function of the ajax request
+          console.log(removed);
+          res.send(removed);
+        }
+      }
+    );
+  });
+
+  // Route for getting all UNSAVED Articles from the db
+  app.get("/unsaved", function(req, res) {
+    db.Article.find({ saved: false })
+      .then(function(dbArticle) {
+        // If all Articles are successfully found, send them back to the client
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurs, send the error back to the client
+        res.json(err);
+      });
+  });
+
+  // Route for getting all SAVED Articles from the db
+  app.get("/saved", function(req, res) {
+    db.Article.find({ saved: true })
       .then(function(dbArticle) {
         // If all Articles are successfully found, send them back to the client
         res.json(dbArticle);
