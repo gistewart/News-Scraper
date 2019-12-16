@@ -146,7 +146,44 @@ module.exports = function(app) {
       });
   });
 
-  // Route for retrieving all Comments from the db
+  // Route for saving a Note to the db and associating it with an Article
+  app.post("/savenote/:id", function(req, res) {
+    // Create a new Note in the database
+    db.Note.create(req.body)
+      .then(function(dbNote) {
+        return db.Article.findOneAndUpdate(
+          {
+            _id: mongojs.ObjectID(req.params.id)
+          },
+          { $push: { notes: dbNote._id } },
+          { new: true }
+        );
+      })
+      .then(function(dbArticle) {
+        // If the Article was updated successfully, send it back to the client
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+      });
+  });
 
-  // Route for saving a new Comment to the db?
+  // Route for retrieving all Comments from the db
+  app.get("/populated/:id", function(req, res) {
+    // Find selected article
+    db.Article.find({
+      _id: mongojs.ObjectID(req.params.id)
+    })
+      // Specify that we want to populate this article with any associated notes
+      .populate("notes")
+      .then(function(dbArticle) {
+        // If able to successfully find and associate all Users and Notes, send them back to the client
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+      });
+  });
 };

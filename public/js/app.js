@@ -10,11 +10,12 @@ $(document).ready(function() {
   function displayArticles() {
     $("#article-container").empty();
     $.getJSON("/articles", function(data) {
-      console.log(data);
+      // console.log(data);
       for (var i = 0; i < data.length; i++) {
         $("#article-container").prepend(
           "<tr><td>" +
             data[i].title +
+            "<td></td>" +
             "</td><td><button class='save-article-btn btn btn-info btn-sm' article-id='" +
             data[i]._id +
             "'>Save Article</button></td><tr>"
@@ -22,14 +23,6 @@ $(document).ready(function() {
       }
     });
   }
-
-  // $(document).on("click", ".save-article-btn", function(data) {
-  //   var thisID = $(this).attr("article-id");
-  //   $.ajax({
-  //     type: "GET",
-  //     url: "/delete/" + thisID
-  //   });
-  // });
 
   // When a Save Article button is clicked
   $(document).on("click", ".save-article-btn", function(data) {
@@ -68,16 +61,51 @@ $(document).ready(function() {
   function displaySavedArticles() {
     $("#article-container").empty();
     $.getJSON("/saved", function(data) {
-      // console.log(data);
+      console.log(data);
       for (var i = 0; i < data.length; i++) {
         $("#article-container").prepend(
           "<tr><td>" +
             data[i].title +
-            "</td><td><button class='save-article-btn btn btn-info' article-id='" +
+            "</td><td><button class='article-notes-btn btn btn-secondary btn-sm' article-id='" +
             data[i]._id +
-            "'>Save Article</button></td><tr>"
+            "'>Article Notes</button></td><td><button class='delete-from-saved-btn btn btn-danger btn-sm' article-id='" +
+            data[i]._id +
+            "'>Delete from Saved</button></td><tr>"
         );
       }
     });
   }
+
+  let articleNoteID;
+
+  //When the 'Article Notes' button is clicked
+  $(document).on("click", ".article-notes-btn", function(data) {
+    // console.log("Article Notes button clicked");
+    $("#posted-notes").val("");
+    articleNoteID = $(this).attr("article-id");
+    // console.log("Article note ID: " + articleNoteID);
+    $.ajax({
+      type: "GET",
+      url: "/populated/" + articleNoteID
+    }).then(function(data) {
+      console.log(data);
+      if (data) {
+        $("#posted-notes").val(data[0].notes[0].comment);
+      }
+    });
+    $(".article-modal").modal("show");
+  });
+
+  // When the 'Save Note' button is clicked
+  $(document).on("click", "#save-note-btn", function(data) {
+    console.log("Save note button clicked");
+    $.ajax({
+      type: "POST",
+      url: "/savenote/" + articleNoteID,
+      data: {
+        comment: $("#commentID").val()
+      }
+    });
+    $("#commentID").val("");
+  });
 });

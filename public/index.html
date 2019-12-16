@@ -19,10 +19,10 @@
     <div class="btn-container">
 
         <div class="row">
-            <div class="col-md-3 offset-md-3">
+            <div class="col-md-3 offset-md-4">
                 <button class="btn btn-primary" id="scrape-articles">Scrape all articles</button>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <button class="btn btn-warning" id="saved-articles">View saved articles</button>
             </div>
         </div>
@@ -30,11 +30,49 @@
     </div>
 
     <div class="container">
-        <table class="table table-bordered" id="article-container">
+        <table class="table" id="article-container">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 70%"></th>
+                    <th scope="col" style="width: 15%"></th>
+                    <th scope="col" style="width: 15%"></th>
+                </tr>
+            </thead>
+            </tr>
             <tbody>
             </tbody>
         </table>
 
+    </div>
+
+    <!-- Modal -->
+    <div class="modal article-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Notes for Article</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <textarea name="comment" class="form-control" id="posted-notes"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">New Note</label>
+
+                        <textarea name="comment" class="form-control" id="commentID"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="save-note-btn" data-dismiss="modal">Save
+                        Note</button>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- jQuery Library -->
