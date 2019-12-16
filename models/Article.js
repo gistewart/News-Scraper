@@ -9,19 +9,19 @@ var ArticleSchema = new Schema({
   // `title` is required and of type String
   title: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   // `link` is required and of type String
   link: {
     type: String,
     required: true
   },
-  // `link` is required and of type String
+  // `summary` is required and of type String
   summary: {
     type: String,
     required: true
   },
+  //'saved is of type Boolean and is defaulted to false
   saved: {
     type: Boolean,
     default: false

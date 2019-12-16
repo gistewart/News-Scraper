@@ -13,8 +13,14 @@ $(document).ready(function() {
       // console.log(data);
       for (var i = 0; i < data.length; i++) {
         $("#article-container").prepend(
-          "<tr><td>" +
+          "<tr><td><h5><a href ='" +
+            data[i].link +
+            "'>" +
             data[i].title +
+            "</a></h5>" +
+            "<h6>" +
+            data[i].summary +
+            "</h6>" +
             "<td></td>" +
             "</td><td><button class='save-article-btn btn btn-info btn-sm' article-id='" +
             data[i]._id +
@@ -40,8 +46,15 @@ $(document).ready(function() {
       // console.log(data);
       for (var i = 0; i < data.length; i++) {
         $("#article-container").prepend(
-          "<tr><td>" +
+          "<tr><td><h5><a href ='" +
+            data[i].link +
+            "'>" +
             data[i].title +
+            "</a></h5>" +
+            "<h6>" +
+            data[i].summary +
+            "</h6>" +
+            "<td></td>" +
             "</td><td><button class='save-article-btn btn btn-info' article-id='" +
             data[i]._id +
             "'>Save Article</button></td><tr>"
@@ -64,8 +77,15 @@ $(document).ready(function() {
       console.log(data);
       for (var i = 0; i < data.length; i++) {
         $("#article-container").prepend(
-          "<tr><td>" +
+          "<tr><td><h5><a href ='" +
+            data[i].link +
+            "'>" +
             data[i].title +
+            "</a></h5>" +
+            "<h6>" +
+            data[i].summary +
+            "</h6>" +
+            "<td></td>" +
             "</td><td><button class='article-notes-btn btn btn-secondary btn-sm' article-id='" +
             data[i]._id +
             "'>Article Notes</button></td><td><button class='delete-from-saved-btn btn btn-danger btn-sm' article-id='" +

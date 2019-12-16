@@ -25,19 +25,20 @@ module.exports = function(app) {
         var result = {};
 
         // Add the headline, href, summary of every link, and save them as properties of the result object
-        result.title = $(this)
-          .children("div")
-          .children("h2")
-          .text();
         result.link = $(this)
           .children("div")
           .children("h2")
           .children("a")
           .attr("href");
         result.summary = $(this)
+          .children("div")
           .children("p")
           .text();
-        // console.log(result);
+        result.title = $(this)
+          .children("div")
+          .children("h2")
+          .text();
+        console.log(result);
 
         // Create a new Article using the `result` object built from scraping
         db.Article.create(result)
@@ -178,7 +179,7 @@ module.exports = function(app) {
       // Specify that we want to populate this article with any associated notes
       .populate("notes")
       .then(function(dbArticle) {
-        // If able to successfully find and associate all Users and Notes, send them back to the client
+        // If able to successfully find and associate all Articles and Notes, send them back to the client
         res.json(dbArticle);
       })
       .catch(function(err) {
