@@ -3,6 +3,7 @@ $(document).ready(function() {
   $(document).on("click", "#scrape-articles", function(data) {
     console.log("Scrape articles button clicked");
     $.get("/scrape", function(data) {
+      console.log(data);
       displayArticles(data);
     });
   });
@@ -96,17 +97,27 @@ $(document).ready(function() {
     });
   }
 
-  let articleNoteID;
+  // When a 'Delete from Saved' button is clicked from saved articles
+  $(document).on("click", ".delete-from-saved-btn", function(data) {
+    var thisID = $(this).attr("article-id");
+    $.ajax({
+      type: "GET",
+      url: "/deleteArticle/" + thisID
+    });
+    displaySavedArticles();
+  });
+
+  let articleID;
 
   //When the 'Article Notes' button is clicked
   $(document).on("click", ".article-notes-btn", function(data) {
     // console.log("Article Notes button clicked");
     $("#posted-notes").val("");
-    articleNoteID = $(this).attr("article-id");
-    // console.log("Article note ID: " + articleNoteID);
+    articleID = $(this).attr("article-id");
+    // console.log("Article note ID: " + articleID);
     $.ajax({
       type: "GET",
-      url: "/populated/" + articleNoteID
+      url: "/populated/" + articleID
     }).then(function(data) {
       console.log(data);
       if (data) {
@@ -116,16 +127,27 @@ $(document).ready(function() {
     $(".article-modal").modal("show");
   });
 
-  // When the 'Save Note' button is clicked
+  // When the 'Save Note' button is clicked in the modal
   $(document).on("click", "#save-note-btn", function(data) {
     console.log("Save note button clicked");
     $.ajax({
       type: "POST",
-      url: "/savenote/" + articleNoteID,
+      url: "/savenote/" + articleID,
       data: {
-        comment: $("#commentID").val()
+        comment: $("#newCommentID").val()
       }
     });
-    $("#commentID").val("");
+    $("#newCommentID").val("");
+  });
+
+  // When a 'Delete Existing Notes' button is clicked in the modal
+  $(document).on("click", "#delete-note-btn", function(data) {
+    console.log("Delete note button clicked");
+    // var thisID = $(this).attr("article-id");
+    $.ajax({
+      type: "POST",
+      url: "/deleteNote/" + articleID
+    });
+    $("#posted-notes").val("");
   });
 });

@@ -17,13 +17,12 @@ module.exports = function(app) {
     axios.get("https://www.reuters.com/theWire").then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
       var $ = cheerio.load(response.data);
-      //   db.Article.remove({});
 
+      let count = 0;
       // Now, we grab the parent selector, and do the following:
       $(".ImageStoryTemplate_image-story-container").each(function(i, element) {
         // Save an empty result object
         var result = {};
-
         // Add the headline, href, summary of every link, and save them as properties of the result object
         result.link = $(this)
           .children("div")
@@ -45,6 +44,9 @@ module.exports = function(app) {
           .then(function(dbArticle) {
             // View the added result in the console
             // console.log(dbArticle);
+            count++;
+            console.log(count);
+            console.log("article added");
           })
           .catch(function(err) {
             // If an error occurred, log it
@@ -54,7 +56,8 @@ module.exports = function(app) {
 
       // Send a message to the client
       //   res.json(dbArticle);
-      res.send("Scrape Complete");
+      console.log("final count: " + count);
+      res.send(`Scraped ${count} new articles`);
     });
   });
 
@@ -69,28 +72,6 @@ module.exports = function(app) {
         // If an error occurs, send the error back to the client
         res.json(err);
       });
-  });
-
-  // Route for deleting a saved article from the Articles collection
-  app.get("/delete/:id", function(req, res) {
-    console.log(req.body);
-    db.Article.remove(
-      {
-        _id: mongojs.ObjectID(req.params.id)
-      },
-      function(error, removed) {
-        // Log any errors from mongojs
-        if (error) {
-          console.log(error);
-          res.send(error);
-        } else {
-          // Otherwise, send the mongojs response to the browser
-          // This will fire off the success function of the ajax request
-          console.log(removed);
-          res.send(removed);
-        }
-      }
-    );
   });
 
   // Route for marking an article as 'saved' in the Articles collection
@@ -147,6 +128,27 @@ module.exports = function(app) {
       });
   });
 
+  // Route for deleting an Article from the db
+  app.get("/deleteArticle/:id", function(req, res) {
+    db.Article.remove(
+      {
+        _id: mongojs.ObjectID(req.params.id)
+      },
+      function(error, removed) {
+        // Log any errors from mongojs
+        if (error) {
+          console.log(error);
+          res.send(error);
+        } else {
+          // Otherwise, send the mongojs response to the browser
+          // This will fire off the success function of the ajax request
+          console.log(removed);
+          res.send(removed);
+        }
+      }
+    );
+  });
+
   // Route for saving a Note to the db and associating it with an Article
   app.post("/savenote/:id", function(req, res) {
     // Create a new Note in the database
@@ -186,5 +188,34 @@ module.exports = function(app) {
         // If an error occurs, send it back to the client
         res.json(err);
       });
+  });
+
+  // Route for deleting a posted note from an Article
+  app.post("/deleteNote/:id", function(req, res) {
+    console.log(req.body);
+    db.Article.update(
+      {
+        _id: mongojs.ObjectID(req.params.id)
+      },
+      // { $pull: { notes: dbNote._id } },
+      {
+        $set: {
+          notes: null
+        }
+      },
+
+      function(error, updated) {
+        // Log any errors from mongojs
+        if (error) {
+          console.log(error);
+          res.send(error);
+        } else {
+          // Otherwise, send the mongojs response to the browser
+          // This will fire off the success function of the ajax request
+          console.log(updated);
+          res.send(updated);
+        }
+      }
+    );
   });
 };
