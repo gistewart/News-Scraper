@@ -3,7 +3,11 @@ $(document).ready(function() {
   $(document).on("click", "#scrape-articles", function(data) {
     console.log("Scrape articles button clicked");
     $.get("/scrape", function(data) {
-      console.log(data);
+      console.log(data.nInserted);
+      $("#new-article-statement").text(
+        "Number of new articles: " + data.nInserted
+      );
+      $(".new-article-modal").modal("show");
       displayArticles(data);
     });
   });
@@ -112,7 +116,7 @@ $(document).ready(function() {
   //When the 'Article Notes' button is clicked
   $(document).on("click", ".article-notes-btn", function(data) {
     // console.log("Article Notes button clicked");
-    $("#posted-notes").val("");
+    $("#posted-notes").text("");
     articleID = $(this).attr("article-id");
     // console.log("Article note ID: " + articleID);
     $.ajax({
@@ -121,10 +125,12 @@ $(document).ready(function() {
     }).then(function(data) {
       console.log(data);
       if (data) {
-        $("#posted-notes").val(data[0].notes[0].comment);
+        for (i = 0; i < data[0].notes.length; i++) {
+          $("#posted-notes").append("<p>" + data[0].notes[i].comment + "</p>");
+        }
       }
     });
-    $(".article-modal").modal("show");
+    $(".notes-modal").modal("show");
   });
 
   // When the 'Save Note' button is clicked in the modal

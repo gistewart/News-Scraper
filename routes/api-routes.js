@@ -18,7 +18,7 @@ module.exports = function(app) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
       var $ = cheerio.load(response.data);
 
-      let count = 0;
+      const resultsArray = [];
       // Now, we grab the parent selector, and do the following:
       $(".ImageStoryTemplate_image-story-container").each(function(i, element) {
         // Save an empty result object
@@ -37,27 +37,27 @@ module.exports = function(app) {
           .children("div")
           .children("h2")
           .text();
-        console.log(result);
+        // console.log(result);
 
-        // Create a new Article using the `result` object built from scraping
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            // View the added result in the console
-            // console.log(dbArticle);
-            count++;
-            console.log(count);
-            console.log("article added");
-          })
-          .catch(function(err) {
-            // If an error occurred, log it
-            console.log(err);
-          });
+        resultsArray.push(result);
+        // console.log(resultsArray);
       });
+
+      // Create a new Article using the `result` object built from scraping
+      db.Article.insertMany(resultsArray, { ordered: false })
+        .then(function(dbArticle) {
+          // View the added result in the console
+          console.log(dbArticle);
+          // res.send(dbArticle);
+        })
+        .catch(function(err) {
+          // If an error occurred, log it
+          console.log("*************ERRRRRRR*******", err);
+          res.send(err.result);
+        });
 
       // Send a message to the client
       //   res.json(dbArticle);
-      console.log("final count: " + count);
-      res.send(`Scraped ${count} new articles`);
     });
   });
 
@@ -200,7 +200,7 @@ module.exports = function(app) {
       // { $pull: { notes: dbNote._id } },
       {
         $set: {
-          notes: null
+          notes: []
         }
       },
 

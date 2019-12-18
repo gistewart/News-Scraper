@@ -30,23 +30,40 @@
     </div>
 
     <div class="container">
-        <table class="table" id="article-container">
-            <thead>
-                <tr>
-                    <th scope="col" style="width: 70%"></th>
-                    <th scope="col" style="width: 15%"></th>
-                    <th scope="col" style="width: 15%"></th>
-                </tr>
-            </thead>
-            </tr>
-            <tbody>
-            </tbody>
-        </table>
-
+        <div class="table-container">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table" id="article-container">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 70%"></th>
+                            <th scope="col" style="width: 15%"></th>
+                            <th scope="col" style="width: 15%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal article-modal" tabindex="-1" role="dialog">
+    <!-- Modal for new article count-->
+    <div class="modal new-article-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content xxx">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="new-article-statement"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for notes-->
+    <div class="modal notes-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -59,7 +76,7 @@
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Existing Notes</label>
 
-                        <input class="form-control" type="text" id="posted-notes" readonly>
+                        <div class="form-control" id="posted-notes"></div>
                     </div>
 
                     <div class="form-group text-right">
