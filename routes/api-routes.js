@@ -6,11 +6,6 @@ var mongojs = require("mongojs");
 
 //exports a function that will accept the app we pass
 module.exports = function(app) {
-  // Main route (simple Hello World Message)
-  app.get("/", function(req, res) {
-    res.send("Hello world");
-  });
-
   // A GET route for scraping the Reuters website
   app.get("/scrape", function(req, res) {
     // First, we grab the body of the html with axios

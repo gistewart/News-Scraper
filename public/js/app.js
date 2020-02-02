@@ -26,7 +26,7 @@ $(document).ready(function() {
             "<h6>" +
             data[i].summary +
             "</h6>" +
-            "<td></td>" +
+            "</td><td>" +
             "</td><td><button class='save-article-btn btn btn-info btn-sm' article-id='" +
             data[i]._id +
             "'>Save Article</button></td><tr>"
