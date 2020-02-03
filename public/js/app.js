@@ -8,31 +8,32 @@ $(document).ready(function() {
         "Number of new articles: " + data.nInserted
       );
       $(".new-article-modal").modal("show");
-      displayArticles(data);
+
+      $.getJSON("/articles", function(data) {
+        displayArticles(data);
+      });
     });
   });
 
-  function displayArticles() {
+  function displayArticles(data) {
     $("#article-container").empty();
-    $.getJSON("/articles", function(data) {
-      // console.log(data);
-      for (var i = 0; i < data.length; i++) {
-        $("#article-container").prepend(
-          "<tr><td><h5><a href ='" +
-            data[i].link +
-            "'>" +
-            data[i].title +
-            "</a></h5>" +
-            "<h6>" +
-            data[i].summary +
-            "</h6>" +
-            "</td><td>" +
-            "</td><td><button class='save-article-btn btn btn-info btn-sm' article-id='" +
-            data[i]._id +
-            "'>Save Article</button></td><tr>"
-        );
-      }
-    });
+    // console.log(data);
+    for (var i = 0; i < data.length; i++) {
+      $("#article-container").prepend(
+        "<tr><td><h5><a href ='" +
+          data[i].link +
+          "'>" +
+          data[i].title +
+          "</a></h5>" +
+          "<h6>" +
+          data[i].summary +
+          "</h6>" +
+          "</td><td>" +
+          "</td><td><button class='save-article-btn btn btn-info btn-sm' article-id='" +
+          data[i]._id +
+          "'>Save Article</button></td><tr>"
+      );
+    }
   }
 
   // When a Save Article button is clicked
@@ -42,31 +43,10 @@ $(document).ready(function() {
       type: "PUT",
       url: "/saved/" + thisID
     });
-    displayUnsavedArticles();
-  });
-
-  function displayUnsavedArticles() {
-    $("#article-container").empty();
     $.getJSON("/unsaved", function(data) {
-      // console.log(data);
-      for (var i = 0; i < data.length; i++) {
-        $("#article-container").prepend(
-          "<tr><td><h5><a href ='" +
-            data[i].link +
-            "'>" +
-            data[i].title +
-            "</a></h5>" +
-            "<h6>" +
-            data[i].summary +
-            "</h6>" +
-            "<td></td>" +
-            "</td><td><button class='save-article-btn btn btn-info' article-id='" +
-            data[i]._id +
-            "'>Save Article</button></td><tr>"
-        );
-      }
+      displayArticles(data);
     });
-  }
+  });
 
   //When the 'View saved articles' button is clicked
   $(document).on("click", "#saved-articles", function(data) {
