@@ -37,6 +37,13 @@ $(document).ready(function() {
   }
 
   // When a Save Article button is clicked
+  $(document).on("click", "#unsaved-articles", function(data) {
+    $.getJSON("/unsaved", function(data) {
+      displayArticles(data);
+    });
+  });
+
+  // When the 'View unsaved articles' button is clicked
   $(document).on("click", ".save-article-btn", function(data) {
     var thisID = $(this).attr("article-id");
     $.ajax({

@@ -26,8 +26,9 @@
 }
 
 #scrape-articles,
-#saved-articles {
-  font-size: 24px;
+#saved-articles,
+#unsaved-articles {
+  font-size: 22px;
   padding: 0px important!;
 }
 
