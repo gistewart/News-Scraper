@@ -32,10 +32,14 @@ module.exports = function(app) {
           .children("div")
           .children("h2")
           .text();
-        // console.log(result);
+        result.image = $(this)
+          .children("span")
+          .children("a")
+          .children("img")
+          .attr("src");
 
         resultsArray.push(result);
-        // console.log(resultsArray);
+        console.log(resultsArray);
       });
 
       // Create a new Article using the `result` object built from scraping
@@ -47,7 +51,7 @@ module.exports = function(app) {
         })
         .catch(function(err) {
           // If an error occurred, log it
-          console.log("*************ERRRRRRR*******", err);
+          console.log("********ERRRRRRR*******", err);
           res.send(err.result);
         });
 

@@ -20,7 +20,9 @@ $(document).ready(function() {
     // console.log(data);
     for (var i = 0; i < data.length; i++) {
       $("#article-container").prepend(
-        "<tr><td><h5><a href ='" +
+        "<tr><td><img src ='" +
+          data[i].image +
+          "'></td><td><h5><a href ='" +
           data[i].link +
           "'>" +
           data[i].title +

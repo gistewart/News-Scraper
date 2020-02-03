@@ -22,6 +22,10 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  // `image` is of type String
+  image: {
+    type: String
+  },
   //'saved is of type Boolean and is defaulted to false
   saved: {
     type: Boolean,
