@@ -8,7 +8,7 @@ This is a full-stack Node.js app that allows a user to view recent news headline
 
 The main challenges of this project, and the solutions used, were as follows:
 
-1. data scraping method: Axios, a Javascript library for performing HTTP requests, was used inside a `GET` request, to retrieve the headline, summary and link of each of the articles.
+1. data scraping method: Axios, a Javascript library for performing HTTP requests, was used inside a `GET` request, to retrieve the headline, summary, link and image of each of the articles.
 2. data scraping for the right data: chained `.children` methods were used to isolate the right HTML content, then Mongoose was used to add `documents` to the Articles `collection`.
 3. display of number of new articles scraped on each scrape: the asychronous nature of the `GET` request and creation of articles in the db made this task problematic - pushing the article results into an array as they are being scraped, then using the Mongoose `insertMany` method on that array, resulted in Mongoose reporting the number of new articles or `documents` added to the database each time.
 4. assocation of notes to articles: this was achieved via the schema design for the `Article` model and notes were displayed for each article using the `.populate` method on a `GET` request. This was an example of object-document mapping, or ODM.
