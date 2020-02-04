@@ -8,15 +8,8 @@ var cheerio = require("cheerio");
 
 var PORT = process.env.PORT || 3000;
 
-// Require all models
-var db = require("./models");
-
 // Initialize Express
 var app = express();
-
-// Database configuration
-var databaseUrl = "scraper";
-var collections = ["scrapedData"];
 
 // Configure middleware
 
@@ -33,12 +26,11 @@ app.use(express.static("public"));
 //Require our routes
 require("./routes/api-routes.js")(app);
 
-// Connect to the Mongo DB
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/news-scraper";
-mongoose.connect(MONGODB_URI);
 
-// old version
-// mongoose.connect("mongodb://localhost/populatedb", { useNewUrlParser: true });
+// Connect to the Mongo DB
+mongoose.connect(MONGODB_URI);
 
 // Start the server
 app.listen(PORT, function() {

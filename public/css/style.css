@@ -28,7 +28,7 @@
 #scrape-articles,
 #saved-articles,
 #unsaved-articles {
-  font-size: 22px;
+  font-size: 18px;
   padding: 0px important!;
 }
 
@@ -64,4 +64,9 @@ h6 {
 #article-container img {
   height: 60px;
   width: 80px;
+}
+
+#posted-notes p {
+  line-height: 50%;
+  font-size: 14px;
 }
