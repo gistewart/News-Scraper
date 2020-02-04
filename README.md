@@ -26,7 +26,7 @@ There are 5 main areas of note:
 
 ## How to get started
 
-On page load, the user would be expected to select the `Scrape for new articles` button. A modal will show the number of new articles added to the db. The user can then click on an article link; save an article; view a list of saved articles; view, save and delete notes associated with a saved article; delete an article from the saved articles list; and view the list of unsaved articles without scraping for new ones.
+On page load, the user would be expected to select the `Scrape for new articles` button. A modal will show the number of new articles added to the db. The user can then click on an article link; save an article; view a list of saved articles; view, save and delete notes associated with a saved article; delete an article from the saved articles list; and view the list of unsaved articles without scraping for new ones. Please note that the site being scraped (Reuters) can sometimes be unresponsive when scraping for new articles.
 
 ## How to get help
 
