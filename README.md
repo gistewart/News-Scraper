@@ -26,7 +26,7 @@ There are 5 main areas of note:
 
 ## How to get started
 
-On page load, the user selects the `Scrape all articles` button. A modal will show the number of new articles added to the db. The user can then click on an article link, save an article, view a list of saved articles, view, save and delete notes associated with an article, and delete an article from the saved articles list. Clicking on the `Scrape all articles` again re-starts the process.
+On page load, the user would be expected to select the `Scrape for new articles` button. A modal will show the number of new articles added to the db. The user can then click on an article link; save an article; view a list of saved articles; view, save and delete notes associated with a saved article; delete an article from the saved articles list; and view the list of unsaved articles without scraping for new ones.
 
 ## How to get help
 
